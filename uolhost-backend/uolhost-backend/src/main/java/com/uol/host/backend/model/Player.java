@@ -1,5 +1,6 @@
 package com.uol.host.backend.model;
 
+import com.uol.host.backend.model.dto.PlayerDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -26,4 +27,11 @@ public class Player {
     private String phoneNumber;
     private String codiname;
     private GroupType groupType;
+
+    public Player(PlayerDto playerDto) {
+        name = playerDto.name();
+        email = playerDto.email();
+        phoneNumber = playerDto.phoneNumber();
+        groupType = playerDto.groupType();
+    }
 }
