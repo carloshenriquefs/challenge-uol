@@ -27,26 +27,24 @@ public class CodinameService {
     private RestTemplate restTemplate;
 
     @Autowired
-    private Environment environment;
+    private Environment env;
 
-    private List<String> avengersCodinameList = new ArrayList<>();
+    private List<String> avangersCodinameList = new ArrayList<>();
     private List<String> justiceLeagueList = new ArrayList<>();
 
     ObjectMapper objectMapper = new ObjectMapper();
 
-
     @PostConstruct
     public void loadJsonData() {
         try {
-            String codinameResponse = restTemplate.getForObject(environment.getProperty("avengers"), String.class);
+            String codinameResponse = restTemplate.getForObject(env.getProperty("avengers"), String.class);
             JsonNode jsonNode = objectMapper.readTree(codinameResponse);
 
-            ArrayNode avengers = (ArrayNode) jsonNode.get("vingadores");
+            ArrayNode avangers = (ArrayNode) jsonNode.get("vingadores");
 
-            for (JsonNode item : avengers) {
-                this.avengersCodinameList.add(item.get("codiname").asText());
+            for (JsonNode item : avangers) {
+                this.avangersCodinameList.add(item.get("codinome").asText());
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,9 +55,9 @@ public class CodinameService {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
-            Document document = builder.parse(environment.getProperty("justice.league"));
+            Document document = builder.parse(env.getProperty("justice.league"));
 
-            NodeList codinameList = document.getElementsByTagName("codiname");
+            NodeList codinameList = document.getElementsByTagName("codinome");
 
             for (int i = 0; i < codinameList.getLength(); i++) {
                 Element codinameElement = (Element) codinameList.item(i);
